@@ -12,6 +12,20 @@ class complexNums
  {
     public:
 
+    ~complexNums(){};;
+    void killButton()
+    {
+        complexNums *current;
+        complexNums *nextptr;
+        complexNums *deleteMe;
+        while (next != NULL)
+        {
+            deleteMe = next;
+            nextptr = next->next;
+            delete deleteMe;
+            next = nextptr;
+        };
+    };
     complexNums(){next = NULL;}
     void setnext(complexNums *n){next = n;}
     ///assigns an object to the end of the chain
@@ -89,6 +103,10 @@ class complexNums
             cout << " + " << abs(imaginarySum) << "i)\n\n";
         };
 ///--------------------------------------------------------------
+
+
+
+
     private:
         double real, imaginary;
 
@@ -184,6 +202,9 @@ class complexNums
             }
         };
   numListFile.close();
+    header->killButton();
+    delete header;
+    delete current;
   return 0;
   };
 
