@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <fstream>
 
 class dude
 {
@@ -20,3 +21,7 @@ private:
 
     dude *next;
 };
+int main()
+{
+    return 0;
+}
