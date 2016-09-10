@@ -70,14 +70,17 @@ class complexNums
  void multiplyStuff(complexNums *start)
        {
         double real, realSum;
-        double imaginarySum = 0;
+        double imaginary, imaginarySum;
         complexNums *current = start;
+        realSum = current->real;
+        imaginarySum = current->imaginary;
+        current = current->next;
         while (current->next != NULL)
-        {
-            realSum = realSum + current->real;
-            imaginarySum = imaginarySum + current->imaginary;
+            {
+            realSum = current->real;
+            imaginarySum = current->imaginary;
             current = current->next;
-        }
+            }
         cout << showpoint << fixed<< setprecision(2);
         cout << "The sum of the number list is (" << realSum;
         if (imaginarySum < 0)
