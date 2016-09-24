@@ -1,0 +1,15 @@
+clear
+reset
+set title "123"
+m0 = 2
+b0 = 1
+m1 = 2
+b1 = 3
+f(x)=m0*(x)+b0
+set xrange [-20:20]
+set yrange [-20:20]
+g(x)=m1*(x)+b1
+set xrange [-20:20]
+set yrange [-20:20]
+plot g(x), f(x)
+pause -1
