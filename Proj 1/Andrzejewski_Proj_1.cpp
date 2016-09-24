@@ -120,8 +120,7 @@ using namespace std;
                     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
                     cout << "\n\nYou have chosen " << choice << ". Goodbye! I will miss you :( \n";
                     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
-
-                    return 0;
+                    break;
                     };
                 default :
         ///Used for input error
