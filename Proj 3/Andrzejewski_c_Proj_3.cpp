@@ -92,6 +92,8 @@ int main()
     outdat << point5.retXpoint() << " "
             << point5.retYpoint() << " "
             << point5.retZpoint() << endl;
+
+
     outdat.close();
     outfile << "clear" << endl ;
     outfile << "reset" << endl ;
