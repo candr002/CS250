@@ -13,89 +13,54 @@
 #include <cstdlib>
 #include <stdio.h>
 
+
+
 using namespace std;
 
 ///======================================================================
 class pointSet
  {
-    public:
-///----------------------------------------------------------------------
-    ~pointSet()
-    ///Destructor for the linked list
-        {
-        while (next->next != NULL)
-            {
-             pointSet *temp = next;
-             next = next->next;
-             delete temp;
-            }
-        delete next;
-        };
-///----------------------------------------------------------------------
 
-///----------------------------------------------------------------------
-    pointSet(){next = NULL;}
-    void setnext(pointSet *n){next = n;}
-    ///assigns an object to the end of the chain
-///----------------------------------------------------------------------
+public:
 
-///----------------------------------------------------------------------
-    pointSet *getnext(pointSet *n){return next;}
-    ///proceeds down the linked list chain
-///----------------------------------------------------------------------
-
-///----------------------------------------------------------------------
-     void makenew(){next = new pointSet;}
-    ///makes a new object of complex type
-///----------------------------------------------------------------------
 
 ///----------------------------------------------------------------------
     double retXpoint() {return xValue;}
-    ///returns the "real value" stored
+
 ///----------------------------------------------------------------------
 
 ///----------------------------------------------------------------------
     double retYpoint() {return yValue;}
-    ///returns the "real value" stored
+
 ///----------------------------------------------------------------------
 
 ///----------------------------------------------------------------------
     double retZpoint() {return zValue;}
-    ///returns the "real value" stored
+
 ///----------------------------------------------------------------------
 
 ///----------------------------------------------------------------------
     void setXpoint(double n) {xValue = n;}
-    ///returns the "real value" stored
-///----------------------------------------------------------------------
+
+///---------------------------------------------------------------------
 
 ///----------------------------------------------------------------------
     void setYpoint(double n) {yValue = n;}
-    ///returns the "real value" stored
+
 ///----------------------------------------------------------------------
 
 ///----------------------------------------------------------------------
     void setZpoint(double n) {zValue = n;}
-    ///returns the "real value" stored
+
 ///----------------------------------------------------------------------
 
 ///----------------------------------------------------------------------
     private:
         double xValue, yValue, zValue;
 
-        pointSet *next;
 ///----------------------------------------------------------------------
  };
 ///======================================================================
-
-
-
-
-
-
-
-
-
 
 
 ///======================================================================
@@ -105,6 +70,8 @@ class surface
     ~surface()
     ///Destructor for the linked list
         {
+        while (next != NULL)
+        {
         while (next->next != NULL)
             {
              surface *temp = next;
@@ -112,6 +79,7 @@ class surface
              delete temp;
             }
         delete next;
+        }
         };
 ///----------------------------------------------------------------------
 
@@ -178,10 +146,29 @@ class surface
 ///----------------------------------------------------------------------
     void setCenterPoints()
     {
+        double tempX, tempY, tempZ, temp;
 
-        centerPoint.setXpoint((xPoint.retXpoint()+yPoint.retXpoint()+zPoint.retXpoint())/3);
-        centerPoint.setypoint((xPoint.retYpoint()+yPoint.retYpoint()+zPoint.retYpoint())/3);
-        centerPoint.setZpoint((xPoint.retZpoint()+yPoint.retZpoint()+zPoint.retZpoint())/3);
+        tempX = xPoint.retXpoint();
+        tempY = yPoint.retXpoint();
+        tempZ = zPoint.retXpoint();
+
+        temp = ((tempX+tempY+tempZ)/3);
+        centerPoint.setXpoint(temp);
+
+        tempX = xPoint.retYpoint();
+        tempY = yPoint.retYpoint();
+        tempZ = zPoint.retYpoint();
+
+        temp = ((tempX+tempY+tempZ)/3);
+        centerPoint.setYpoint(temp);
+
+
+        tempX = xPoint.retZpoint();
+        tempY = yPoint.retZpoint();
+        tempZ = zPoint.retZpoint();
+
+        temp = ((tempX+tempY+tempZ)/3);
+        centerPoint.setZpoint(temp);
 
 
 
@@ -206,6 +193,10 @@ private:
     pointSet xPoint, yPoint, zPoint, centerPoint;
     surface *next;
 };
+
+
+
+
 
 
 

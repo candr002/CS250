@@ -12,14 +12,21 @@
 #include <windows.h>
 #include <cstdlib>
 #include <stdio.h>
-#include "point_def.h"
-#include "surface_def.h"
+#include "defs.h"
 
 using namespace std;
+
+
+///****************still need to write function to "shatter" a surface into 3 smaller surfaces based on it's 3 points and centroid********************
+
 
 int main()
 
 {
+    ofstream outfile;
+    ofstream outdat;
+    outfile.open("command.txt");
+    outdat.open("dat.txt");
     double xVal = 0, yVal = 0, zVal = 0, cVal = 0;
     double xValMax = 150, yValMax = 150, zValMax = 150, cValMax = 300;
 
@@ -66,6 +73,34 @@ int main()
     cout << yVal << endl;
     cout << zVal << endl;
 
+    outdat << point1.retXpoint() << " "
+            << point1.retYpoint() << " "
+            << point1.retZpoint() << endl;
 
+    outdat << point2.retXpoint() << " "
+            << point2.retYpoint() << " "
+            << point2.retZpoint() << endl;
+
+    outdat << point3.retXpoint() << " "
+            << point3.retYpoint() << " "
+            << point3.retZpoint() << endl;
+
+    outdat << point4.retXpoint() << " "
+            << point4.retYpoint() << " "
+            << point4.retZpoint() << endl;
+
+    outdat << point5.retXpoint() << " "
+            << point5.retYpoint() << " "
+            << point5.retZpoint() << endl;
+    outdat.close();
+    outfile << "clear" << endl ;
+    outfile << "reset" << endl ;
+    outfile << "set hidden3d" << endl ;
+    outfile << "set dgrid3d" << endl;
+    outfile << "splot \"dat.txt\" with lines" << endl;
+    outfile << "pause -1";
+
+    outfile.close();
+    system("gnuplot command.txt ");
     return 0;
 }

@@ -1,0 +1,6 @@
+clear
+reset
+set hidden3d
+set dgrid3d
+splot "dat.txt" with lines
+pause -1
