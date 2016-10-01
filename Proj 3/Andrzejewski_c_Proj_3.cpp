@@ -12,214 +12,59 @@
 #include <windows.h>
 #include <cstdlib>
 #include <stdio.h>
+#include "buidler.h"
 
 using namespace std;
 
-///======================================================================
-class pointSet
- {
-    public:
-///----------------------------------------------------------------------
-    ~pointSet()
-    ///Destructor for the linked list
-        {
-        while (next->next != NULL)
-            {
-             pointSet *temp = next;
-             next = next->next;
-             delete temp;
-            }
-        delete next;
-        };
-///----------------------------------------------------------------------
-
-///----------------------------------------------------------------------
-    pointSet(){next = NULL;}
-    void setnext(pointSet *n){next = n;}
-    ///assigns an object to the end of the chain
-///----------------------------------------------------------------------
-
-///----------------------------------------------------------------------
-    pointSet *getnext(pointSet *n){return next;}
-    ///proceeds down the linked list chain
-///----------------------------------------------------------------------
-
-///----------------------------------------------------------------------
-     void makenew(){next = new pointSet;}
-    ///makes a new object of complex type
-///----------------------------------------------------------------------
-
-///----------------------------------------------------------------------
-    double retXpoint() {return xValue;}
-    ///returns the "real value" stored
-///----------------------------------------------------------------------
-
-///----------------------------------------------------------------------
-    double retYpoint() {return yValue;}
-    ///returns the "real value" stored
-///----------------------------------------------------------------------
-
-///----------------------------------------------------------------------
-    double retZpoint() {return zValue;}
-    ///returns the "real value" stored
-///----------------------------------------------------------------------
-
-///----------------------------------------------------------------------
-    double retCenterPoint() {return centerValue;}
-    ///returns the "real value" stored
-///----------------------------------------------------------------------
-///----------------------------------------------------------------------
-    void setXpoint(double n) {xValue = n;}
-    ///returns the "real value" stored
-///----------------------------------------------------------------------
-
-///----------------------------------------------------------------------
-    void setYpoint(double n) {yValue = n;}
-    ///returns the "real value" stored
-///----------------------------------------------------------------------
-
-///----------------------------------------------------------------------
-    void setZpoint(double n) {zValue = n;}
-    ///returns the "real value" stored
-///----------------------------------------------------------------------
-
-///----------------------------------------------------------------------
-    void setCenterPoint(double n) {centerValue = n;}
-    ///returns the "real value" stored
-///----------------------------------------------------------------------
-
-///----------------------------------------------------------------------
-    private:
-        double xValue, yValue, zValue, centerValue;
-
-        pointSet *next;
-///----------------------------------------------------------------------
- };
-///======================================================================
-
-
-
-
-
-
-
-
-
-
-
-///======================================================================
-class surface
-{
-///----------------------------------------------------------------------
-    ~surface()
-    ///Destructor for the linked list
-        {
-        while (next->next != NULL)
-            {
-             surface *temp = next;
-             next = next->next;
-             delete temp;
-            }
-        delete next;
-        };
-///----------------------------------------------------------------------
-
-///----------------------------------------------------------------------
-    surface(){next = NULL;}
-///----------------------------------------------------------------------
-
-///----------------------------------------------------------------------
-    void setPoints(pointSet *x, pointSet *y, pointSet *z )
-        {
-            xPoint.setXpoint(x->retXpoint());
-            xPoint.setYpoint(x->retYpoint());
-            xPoint.setZpoint(x->retZpoint());
-
-            yPoint.setXpoint(y->retXpoint());
-            yPoint.setYpoint(y->retYpoint());
-            yPoint.setZpoint(y->retZpoint());
-
-            zPoint.setXpoint(z->retXpoint());
-            zPoint.setYpoint(z->retYpoint());
-            zPoint.setZpoint(z->retZpoint());
-        }
-///----------------------------------------------------------------------
-
-///----------------------------------------------------------------------
-    pointSet *getXPoints()
-    {
-        pointSet *temp;
-
-        temp->setXpoint(xPoint.retXpoint());
-        temp->setYpoint(xPoint.retYpoint());
-        temp->setZpoint(xPoint.retZpoint());
-
-       return temp;
-}
-///----------------------------------------------------------------------
-
-///----------------------------------------------------------------------
-    pointSet *getYPoints()
-    {
-        pointSet *temp;
-
-        temp->setXpoint(yPoint.retXpoint());
-        temp->setYpoint(yPoint.retYpoint());
-        temp->setZpoint(yPoint.retZpoint());
-
-       return temp;
-}
-///----------------------------------------------------------------------
-
-///----------------------------------------------------------------------
-    pointSet *getZPoints()
-    {
-        pointSet *temp;
-
-        temp->setXpoint(zPoint.retXpoint());
-        temp->setYpoint(zPoint.retYpoint());
-        temp->setZpoint(zPoint.retZpoint());
-
-       return temp;
-}
-///----------------------------------------------------------------------
-
-///----------------------------------------------------------------------
-    pointSet *getCenterPoints()
-    {
-        pointSet *temp;
-
-        temp->setXpoint(centerPoint.retXpoint());
-        temp->setYpoint(centerPoint.retYpoint());
-        temp->setZpoint(centerPoint.retZpoint());
-
-       return temp;
-}
-///----------------------------------------------------------------------
-
-///----------------------------------------------------------------------
-    void setNextSurface ()
-        {next = new surface;}
-///----------------------------------------------------------------------
-
-///----------------------------------------------------------------------
-    surface *getNextSurface(surface *n)
-        {
-
-            return next;
-        }
-///----------------------------------------------------------------------
-
-private:
-
-    pointSet xPoint, yPoint, zPoint, centerPoint;
-    surface *next;
-};
-
-
-
-int main ()
+int main()
 
 {
+    double xVal = 0, yVal = 0, zVal = 0, cVal = 0;
+    double xValMax = 150, yValMax = 150, zValMax = 150, cValMax = 300;
+
+
+    pointSet point1; ///x == 0 , y == 0 , z == 0
+    pointSet point2; ///x == 100 , y == 0 , z == 0
+    pointSet point3; ///x == 0 , y == 100 , z == 0
+    pointSet point4; ///x == 100 , y == 100 , z == 0
+    pointSet point5; ///x == 0 , y == 0 , z == USER VAL
+
+    point1.setXpoint(0);
+    point1.setYpoint(0);
+    point1.setZpoint(0);
+
+    point2.setXpoint(100);
+    point2.setYpoint(0);
+    point2.setZpoint(0);
+
+    point3.setXpoint(0);
+    point3.setYpoint(100);
+    point3.setZpoint(0);
+
+    point4.setXpoint(100);
+    point4.setYpoint(100);
+    point4.setZpoint(0);
+
+    cout << "**************************************************************\n";
+    cout << "**************************************************************\n";
+    cout << "||Welcome to the AMAZING MOUNTAIN BUILDER GAME! Let's build.||\n";
+    cout << "**************************************************************\n";
+    cout << "**************************************************************\n\n\n";
+    cout << "Please enter the X Y and Z values for the peak.\n";
+
+    cin >> xVal;
+    cin >> yVal;
+    cin >> zVal;
+
+
+    point5.setXpoint(xVal);
+    point5.setYpoint(yVal);
+    point5.setZpoint(zVal);
+
+    cout << xVal << endl;
+    cout << yVal << endl;
+    cout << zVal << endl;
+
+
     return 0;
 }
