@@ -3,10 +3,10 @@
 /// Author: Chris Andrzejewski
 /// Date: 1 Oct 16
 /// Program: Class Assignment 3 (Draw a Mountain)
-/// This program will build a mountain based on 4 hard coded 
-/// "base" points and a user-defined "peak" point.  Based on 
+/// This program will build a mountain based on 4 hard coded
+/// "base" points and a user-defined "peak" point.  Based on
 /// these points, the program will generate a surface from
-/// "shattering" each "surface" into progressively smaller 
+/// "shattering" each "surface" into progressively smaller
 /// surfaces.
 ///***********************************************************
 #include <iostream>
@@ -69,7 +69,7 @@ int main()
     point4.setXpoint(0);
     point4.setYpoint(100);
     point4.setZpoint(0);
-    
+
     ///Output for user's sake
     cout << "**************************************************************\n";
     cout << "**************************************************************\n";
@@ -77,7 +77,7 @@ int main()
     cout << "**************************************************************\n";
     cout << "**************************************************************\n\n\n";
     cout << "Please enter the X Y and Z values for the peak.\n";
-    
+
     ///Input final values (z,y,z points for peak) four mountain
     cin >> xVal;
     cin >> yVal;
@@ -148,8 +148,8 @@ int main()
 
 
     outdat.close();
-    
-    ///Building a file of commands to build the mountian in GNUPlot based on previously generated data file (of points)
+
+    ///Building a file of commands to build the mountain in GNUPlot based on previously generated data file (of points)
     outfile << "clear" << endl ;
     outfile << "reset" << endl ;
     outfile << "set hidden3d" << endl ;
@@ -161,8 +161,8 @@ int main()
     outfile << "pause -1";
 
     outfile.close();
-    
-    ///Acutal command to build the mountian
+
+    ///Actual command to build the mountain
     system("gnuplot command.txt ");
 
 

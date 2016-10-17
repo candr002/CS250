@@ -73,12 +73,13 @@ class surface
 ///----------------------------------------------------------------------
     ~surface()
     ///Destructor for the linked list
+
         {
         while (next != NULL)
         {
         while (next->next != NULL)
             {
-             surface *temp = next;
+            surface *temp = next;
              next = next->next;
              delete temp;
             }
