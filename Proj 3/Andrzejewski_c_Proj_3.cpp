@@ -17,8 +17,6 @@
 
 using namespace std;
 
-void shatter(surface *head);
-
 
 
 int main()
@@ -49,7 +47,7 @@ int main()
     pointSet *pointer4 = &point4;
     pointSet *pointer5 = &point5;
 
-
+    ///Setting initial points (base) of mountain
     point1.setXpoint(0);
     point1.setYpoint(0);
     point1.setZpoint(0);
@@ -66,14 +64,16 @@ int main()
     point4.setXpoint(0);
     point4.setYpoint(100);
     point4.setZpoint(0);
-
+    
+    ///Output for user's sake
     cout << "**************************************************************\n";
     cout << "**************************************************************\n";
     cout << "||Welcome to the AMAZING MOUNTAIN BUILDER GAME! Let's build.||\n";
     cout << "**************************************************************\n";
     cout << "**************************************************************\n\n\n";
     cout << "Please enter the X Y and Z values for the peak.\n";
-
+    
+    ///Input final values (z,y,z points for peak) four mountain
     cin >> xVal;
     cin >> yVal;
     cin >> zVal;
@@ -85,7 +85,7 @@ int main()
 
 
 
-    ///Building basic mountain
+    ///Loading hard-coded and user-defined points into linked list
     current=head;
 
     current->setXPoints(pointer1);
@@ -114,9 +114,9 @@ int main()
 
 
 
-
+    ///Outputting all points within linked list out a data file for later usage
     current=head;
-    //shatter(current);
+
         while (current!=NULL)
         {
         pointer1 = current->getXPoints();
@@ -143,6 +143,8 @@ int main()
 
 
     outdat.close();
+    
+    ///Building a file of commands to build the mountian in GNUPlot based on previously generated data file (of points)
     outfile << "clear" << endl ;
     outfile << "reset" << endl ;
     outfile << "set hidden3d" << endl ;
@@ -154,6 +156,8 @@ int main()
     outfile << "pause -1";
 
     outfile.close();
+    
+    ///Acutal command to build the mountian
     system("gnuplot command.txt ");
 
 
@@ -169,86 +173,3 @@ int main()
 
 
 
-void shatter(surface *head)
-{
-
-        surface *current = head;
-        pointSet *centroid= new pointSet, *xVal = new pointSet, *yVal=new pointSet, *zVal=new pointSet;
-        int temp, val1, val2, val3;
-        surface *parentSurface = head;
-        surface dasSurface;
-        surface *surfTemp = &dasSurface, *surfDel;
-        pointSet *pointTemp1, *pointTemp2, *pointTemp3;
-        current = surfTemp;
-        xVal = current->getXPoints();
-        yVal = current->getYPoints();
-        zVal = current->getZPoints();
-
-        ///Working with the x value
-        val1 = xVal->retXpoint();
-        val2 = yVal->retXpoint();
-        val3 = zVal->retXpoint();
-
-        temp = ((val1 + val2 +val3) /2);
-
-        centroid->setXpoint(temp);
-
-        ///Working with the y value
-
-        val1 = xVal->retYpoint();
-        val2 = yVal->retYpoint();
-        val3 = zVal->retYpoint();
-
-        temp = ((val1 + val2 +val3) / 2 );
-
-        centroid->setYpoint(temp);
-
-
-        ///Working with the z value
-        val1 = xVal->retZpoint();
-        val2 = yVal->retZpoint();
-        val3 = zVal->retZpoint();
-
-        temp = ((val1 + val2 +val3) / 2);
-        centroid->setXpoint(temp);
-
-
-
-    pointTemp1= parentSurface->getXPoints();
-    pointTemp3= centroid;
-    pointTemp2= parentSurface->getYPoints();
-
-    current->setXPoints(pointTemp1);
-    current->setYPoints(pointTemp2);
-    current->setZPoints(pointTemp3);
-    current->makeNewSurface();
-    current= surfTemp->getNextSurface();
-
-    pointTemp1 = centroid;
-    pointTemp2 = parentSurface->getYPoints();
-    pointTemp3 = parentSurface->getZPoints();
-
-    current->setXPoints(pointTemp1);
-    current->setYPoints(pointTemp2);
-    current->setZPoints(pointTemp3);
-
-    current->makeNewSurface();
-    current->getNextSurface();
-
-    pointTemp1 = parentSurface->getXPoints();
-    pointTemp2 = centroid;
-    pointTemp3 = parentSurface->getZPoints();
-
-    current->setXPoints(pointTemp1);
-    current->setYPoints(pointTemp2);
-    current->setZPoints(pointTemp3);
-
-    current->setNextSurface(parentSurface->getNextSurface());
-
-    surfDel = head;
-    head = surfTemp;
-    delete surfDel;
-
-
-
-}
