@@ -25,38 +25,41 @@ public:
 
 
 ///----------------------------------------------------------------------
-    double retXpoint() {return xValue;}
+    int retXpoint() {return xValue;}
 
 ///----------------------------------------------------------------------
 
 ///----------------------------------------------------------------------
-    double retYpoint() {return yValue;}
+    int retYpoint() {return yValue;}
 
 ///----------------------------------------------------------------------
 
 ///----------------------------------------------------------------------
-    double retZpoint() {return zValue;}
+    int retZpoint() {return zValue;}
 
 ///----------------------------------------------------------------------
 
 ///----------------------------------------------------------------------
-    void setXpoint(double n) {xValue = n;}
+    void setXpoint(int n) {xValue = n;}
 
 ///---------------------------------------------------------------------
 
 ///----------------------------------------------------------------------
-    void setYpoint(double n) {yValue = n;}
+    void setYpoint(int n) {yValue = n;}
 
 ///----------------------------------------------------------------------
 
 ///----------------------------------------------------------------------
-    void setZpoint(double n) {zValue = n;}
+    void setZpoint(int n) {zValue = n;}
 
 ///----------------------------------------------------------------------
-
+    void display()
+    {
+        cout<<xValue<<endl;
+    }
 ///----------------------------------------------------------------------
     private:
-        double xValue, yValue, zValue;
+        int xValue, yValue, zValue;
 
 ///----------------------------------------------------------------------
  };
@@ -66,6 +69,7 @@ public:
 ///======================================================================
 class surface
 {
+    public:
 ///----------------------------------------------------------------------
     ~surface()
     ///Destructor for the linked list
@@ -88,39 +92,60 @@ class surface
 ///----------------------------------------------------------------------
 
 ///----------------------------------------------------------------------
-    void setPoints(pointSet *x, pointSet *y, pointSet *z )
+    void setXPoints(pointSet *x)
         {
             xPoint.setXpoint(x->retXpoint());
             xPoint.setYpoint(x->retYpoint());
             xPoint.setZpoint(x->retZpoint());
 
+        }
+///----------------------------------------------------------------------
+
+
+
+///----------------------------------------------------------------------
+    void setYPoints(pointSet *y)
+        {
+
             yPoint.setXpoint(y->retXpoint());
             yPoint.setYpoint(y->retYpoint());
             yPoint.setZpoint(y->retZpoint());
 
-            zPoint.setXpoint(z->retXpoint());
-            zPoint.setYpoint(z->retYpoint());
-            zPoint.setZpoint(z->retZpoint());
         }
 ///----------------------------------------------------------------------
 
 ///----------------------------------------------------------------------
-    pointSet *getXPoints()
-    {
-        pointSet *temp;
+    void setZPoints(pointSet *z)
+        {
 
+            zPoint.setXpoint(z->retXpoint());
+            zPoint.setYpoint(z->retYpoint());
+            zPoint.setZpoint(z->retZpoint());
+
+        }
+///----------------------------------------------------------------------
+
+
+///----------------------------------------------------------------------
+    pointSet *getXPoints()
+    {   pointSet * temp;
+        temp = new pointSet;
         temp->setXpoint(xPoint.retXpoint());
         temp->setYpoint(xPoint.retYpoint());
         temp->setZpoint(xPoint.retZpoint());
+        return temp;
 
-       return temp;
+        /*
+
+
+       return temp;*/
 }
 ///----------------------------------------------------------------------
 
 ///----------------------------------------------------------------------
     pointSet *getYPoints()
     {
-        pointSet *temp;
+        pointSet *temp = new pointSet;
 
         temp->setXpoint(yPoint.retXpoint());
         temp->setYpoint(yPoint.retYpoint());
@@ -133,7 +158,7 @@ class surface
 ///----------------------------------------------------------------------
     pointSet *getZPoints()
     {
-        pointSet *temp;
+        pointSet *temp = new pointSet;
 
         temp->setXpoint(zPoint.retXpoint());
         temp->setYpoint(zPoint.retYpoint());
@@ -144,44 +169,17 @@ class surface
 ///----------------------------------------------------------------------
 
 ///----------------------------------------------------------------------
-    void setCenterPoints()
-    {
-        double tempX, tempY, tempZ, temp;
-
-        tempX = xPoint.retXpoint();
-        tempY = yPoint.retXpoint();
-        tempZ = zPoint.retXpoint();
-
-        temp = ((tempX+tempY+tempZ)/3);
-        centerPoint.setXpoint(temp);
-
-        tempX = xPoint.retYpoint();
-        tempY = yPoint.retYpoint();
-        tempZ = zPoint.retYpoint();
-
-        temp = ((tempX+tempY+tempZ)/3);
-        centerPoint.setYpoint(temp);
-
-
-        tempX = xPoint.retZpoint();
-        tempY = yPoint.retZpoint();
-        tempZ = zPoint.retZpoint();
-
-        temp = ((tempX+tempY+tempZ)/3);
-        centerPoint.setZpoint(temp);
-
-
-
-    }
-///----------------------------------------------------------------------
-
-///----------------------------------------------------------------------
-    void setNextSurface ()
+    void makeNewSurface ()
         {next = new surface;}
 ///----------------------------------------------------------------------
 
 ///----------------------------------------------------------------------
-    surface *getNextSurface(surface *n)
+    void setNextSurface (surface *n)
+        {next = n;}
+///----------------------------------------------------------------------
+
+///----------------------------------------------------------------------
+    surface *getNextSurface()
         {
 
             return next;
