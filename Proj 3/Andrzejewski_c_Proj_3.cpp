@@ -3,6 +3,11 @@
 /// Author: Chris Andrzejewski
 /// Date: 1 Oct 16
 /// Program: Class Assignment 3 (Draw a Mountain)
+/// This program will build a mountain based on 4 hard coded 
+/// "base" points and a user-defined "peak" point.  Based on 
+/// these points, the program will generate a surface from
+/// "shattering" each "surface" into progressively smaller 
+/// surfaces.
 ///***********************************************************
 #include <iostream>
 #include <string>
