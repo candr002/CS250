@@ -22,7 +22,7 @@
 
 using namespace std;
 
-
+void shatter(surface *curr);
 
 int main()
 
@@ -31,8 +31,8 @@ int main()
     ofstream outdat;
     outfile.open("command.txt");
     outdat.open("dat.txt");
-    int xVal = 0, yVal = 0, zVal = 0, cVal = 0;
-    int xValMax = 150, yValMax = 150, zValMax = 150, cValMax = 300;
+    double xVal = 0, yVal = 0, zVal = 0, cVal = 0;
+    double xValMax = 150, yValMax = 150, zValMax = 150, cValMax = 300;
     surface mountain;
     surface *head = &mountain;
     surface *current;
@@ -121,6 +121,8 @@ int main()
 
     ///Outputting all points within linked list out a data file for later usage
     current=head;
+    pointSet compVal1, compVal2;
+
 
         while (current!=NULL)
         {
@@ -174,6 +176,69 @@ int main()
     delete pointer5;
     delete center;
     return 0;
+}
+
+
+///
+
+void shatter(surface *curr)
+{
+    surface *current = curr, *newChain = new surface, *delMe = current, *placeHolder = new surface;
+    pointSet *centroid = new pointSet, *temp = new pointSet, *pointX = new pointSet, *pointY = new pointSet, *pointZ = new pointSet;
+    double modVal;
+
+    pointX = current->getXPoints();
+    modVal = (temp->retXpoint());
+    temp = current->getYPoints();
+    modVal += (temp->retXpoint());
+    temp = current->getZPoints();
+    modVal += (temp->retXpoint());
+    modVal = modVal/3;
+    centroid->setXpoint(modVal);
+
+    pointY = current->getYPoints();
+    modVal = (temp->retYpoint());
+    temp = current->getYPoints();
+    modVal += (temp->retYpoint());
+    temp = current->getZPoints();
+    modVal += (temp->retYpoint());
+    modVal = modVal/3;
+    centroid->setYpoint(modVal);
+
+    pointZ = current->getZPoints();
+    modVal = (temp->retZpoint());
+    temp = current->getYPoints();
+    modVal += (temp->retZpoint());
+    temp = current->getZPoints();
+    modVal += (temp->retZpoint());
+    modVal = modVal/3;
+    centroid->setZpoint(modVal);
+    newChain->setXPoints(centroid);
+    newChain->setYPoints(pointY);
+    newChain->setZPoints(pointZ);
+
+    newChain = newChain->getNextSurface();
+    newChain->setXPoints(pointX);
+    newChain->setYPoints(pointY);
+    newChain->setZPoints(centroid);
+
+    newChain->makeNewSurface();
+    placeHolder = newChain;
+    newChain = newChain->getNextSurface();
+
+    newChain->setXPoints(centroid);
+    newChain->setYPoints(pointY);
+    newChain->setZPoints(pointZ);
+    newChain->makeNewSurface();
+    newChain = newChain->getNextSurface();
+
+    newChain->setXPoints(pointX);
+    newChain->setYPoints(centroid);
+    newChain->setZPoints(pointZ);
+    newChain->setNextSurface(current->getNextSurface());
+
+
+
 }
 
 

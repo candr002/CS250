@@ -25,17 +25,17 @@ public:
 
 
 ///----------------------------------------------------------------------
-    int retXpoint() {return xValue;}
+    double retXpoint() {return xValue;}
 
 ///----------------------------------------------------------------------
 
 ///----------------------------------------------------------------------
-    int retYpoint() {return yValue;}
+    double retYpoint() {return yValue;}
 
 ///----------------------------------------------------------------------
 
 ///----------------------------------------------------------------------
-    int retZpoint() {return zValue;}
+    double retZpoint() {return zValue;}
 
 ///----------------------------------------------------------------------
 
@@ -59,7 +59,7 @@ public:
     }
 ///----------------------------------------------------------------------
     private:
-        int xValue, yValue, zValue;
+        double xValue, yValue, zValue;
 
 ///----------------------------------------------------------------------
  };
@@ -119,7 +119,11 @@ class surface
     void setZPoints(pointSet *z)
         {
 
-            zPoint.setXpoint(z->retXpoint());
+            zPoint.setXpoint(z->retXpoint());    newChain->setXPoints(centroid);
+    newChain->setYPoints(pointY);
+    newChain->setZPoints(pointZ);
+    newChain->setNextSurface();
+    newChain = newChain->getNextSurface();
             zPoint.setYpoint(z->retYpoint());
             zPoint.setZpoint(z->retZpoint());
 
