@@ -119,13 +119,9 @@ class surface
     void setZPoints(pointSet *z)
         {
 
-            zPoint.setXpoint(z->retXpoint());    newChain->setXPoints(centroid);
-    newChain->setYPoints(pointY);
-    newChain->setZPoints(pointZ);
-    newChain->setNextSurface();
-    newChain = newChain->getNextSurface();
-            zPoint.setYpoint(z->retYpoint());
-            zPoint.setZpoint(z->retZpoint());
+    zPoint.setXpoint(z->retXpoint());
+    zPoint.setYpoint(z->retYpoint());
+    zPoint.setZpoint(z->retZpoint());
 
         }
 ///----------------------------------------------------------------------
