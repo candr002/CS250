@@ -22,6 +22,8 @@
 
 using namespace std;
 
+bool checker(surface *curr);
+
 void shatter(surface *curr);
 
 int main()
@@ -37,6 +39,7 @@ int main()
     surface *head = &mountain;
     surface *current;
     current = head;
+    bool checkSum;
 
     pointSet centerpoint;
     pointSet *center = &centerpoint;
@@ -126,24 +129,15 @@ int main()
     while ((current != NULL ) )
     {
         cout << "shattering" << endl;
-        tempPoint = current->getXPoints();
-        compVal1 = tempPoint->retXpoint();
-        tempPoint = current->getYPoints();
-        compVal2 = tempPoint->retXpoint();
 
-        for (int looper =0 ; looper <1 ; looper++)
+        checkSum = checker(current);
+        while (checkSum == true)
             {
             shatter(current);
-            tempPoint = current->getXPoints();
-            compVal1 = tempPoint->retXpoint();
-            tempPoint = current->getYPoints();
-            compVal2 = tempPoint->retXpoint();
-        current = current->getNextSurface();
-        current = current->getNextSurface();
+            checkSum = checker(current);
             }
+        current = current->getNextSurface();
         cout << "done shattering" << endl;
-        current = current->getNextSurface();
-        current = current->getNextSurface();
 
         outloop++;
         cout << " Outer loop count : " << outloop << endl;
@@ -291,5 +285,31 @@ void shatter(surface *curr)
 
 }
 
+///---------------------------------------------------
 
+bool checker(surface *curr)
+{
+
+    surface *current = curr;
+    pointSet *tempPoint = new pointSet;
+    double compValX1, compValX2, compValY1, compValY2, compValZ1, compValZ2;
+    double maxVal = 5;
+
+    tempPoint = current->getXPoints();
+    compValX1 = tempPoint->retXpoint();
+    compValY1 = tempPoint->retYpoint();
+    compValZ1 = tempPoint->retZpoint();
+    tempPoint = current->getYPoints();
+    compValX1 = tempPoint->retXpoint();
+    compValY1 = tempPoint->retYpoint();
+    compValZ1 = tempPoint->retZpoint();
+
+    if (((abs(compValX1 - compValX2)) > maxVal) || ((abs(compValY1 - compValY2)) > maxVal) || ((abs(compValZ1 - compValZ2)) > maxVal) )
+        return true;
+
+    else
+        return false;
+
+
+}
 
