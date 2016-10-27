@@ -1,9 +1,0 @@
-clear
-reset
-set hidden3d
-set dgrid3d
-set xrange [-10:125]
-set yrange [-10:125]
-set zrange [-10:125]
-splot "dat.txt" with lines
-pause -1

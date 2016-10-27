@@ -1,4 +1,5 @@
 
+
 ///***********************************************************
 /// Author: Chris Andrzejewski
 /// Date: 1 Oct 16
@@ -22,6 +23,8 @@
 
 using namespace std;
 
+bool checker(surface *curr, double &prev);
+
 void shatter(surface *curr);
 
 int main()
@@ -32,11 +35,11 @@ int main()
     outfile.open("command.txt");
     outdat.open("dat.txt");
     double xVal = 0, yVal = 0, zVal = 0, cVal = 0;
-    double xValMax = 150, yValMax = 150, zValMax = 150, cValMax = 300;
+    double previous = 0;
     surface mountain;
-    surface *head = &mountain;
     surface *current;
-    current = head;
+    current = &mountain;
+    bool checkSum = true;
 
     pointSet centerpoint;
     pointSet *center = &centerpoint;
@@ -58,16 +61,16 @@ int main()
     point1.setZpoint(0);
 
 
-    point2.setXpoint(100);
+    point2.setXpoint(50);
     point2.setYpoint(0);
     point2.setZpoint(0);
 
-    point3.setXpoint(100);
-    point3.setYpoint(100);
+    point3.setXpoint(50);
+    point3.setYpoint(50);
     point3.setZpoint(0);
 
     point4.setXpoint(0);
-    point4.setYpoint(100);
+    point4.setYpoint(50);
     point4.setZpoint(0);
 
     ///Output for user's sake
@@ -91,7 +94,7 @@ int main()
 
 
     ///Loading hard-coded and user-defined points into linked list
-    current= head;
+    current= &mountain;
 
     current->setXPoints(pointer1);
     current->setYPoints(pointer2);
@@ -119,38 +122,36 @@ int main()
 
 
     ///Outputting all points within linked list out a data file for later usage
-    current= head;
-    int outloop = 0;
-    double compVal1, compVal2;
-    pointSet *tempPoint = new pointSet;
-    while ((current != NULL ) )
+    current = &mountain;
+    bool genericFlag = true;
+    for (int looper = 0; looper < 3; looper++)
     {
-        cout << "shattering" << endl;
-        tempPoint = current->getXPoints();
-        compVal1 = tempPoint->retXpoint();
-        tempPoint = current->getYPoints();
-        compVal2 = tempPoint->retXpoint();
 
-        for (int looper =0 ; looper <1 ; looper++)
+        checkSum = checker(current, previous);
+
+        while (checkSum == true)
             {
             shatter(current);
-            tempPoint = current->getXPoints();
-            compVal1 = tempPoint->retXpoint();
-            tempPoint = current->getYPoints();
-            compVal2 = tempPoint->retXpoint();
-        current = current->getNextSurface();
-        current = current->getNextSurface();
+
+            if (current->getNextSurface() != NULL)
+                {
+                current = current->getNextSurface();
+                checkSum = checker(current, previous);
+                }
             }
-        cout << "done shattering" << endl;
-        current = current->getNextSurface();
-        current = current->getNextSurface();
 
-        outloop++;
-        cout << " Outer loop count : " << outloop << endl;
+        if (current->getNextSurface() != NULL)
+        {
+            current = current->getNextSurface();
+            checkSum = true;
+        }
+
+        else
+            genericFlag = false;
     }
-        cout << "done looping" << endl;
 
-    current = head;
+
+    current = &mountain;
 
 
     while (current!=NULL)
@@ -169,11 +170,7 @@ int main()
 
         outdat << pointer3->retXpoint() << " "
                 << pointer3->retYpoint() << " "
-                << pointer3->retZpoint() << endl;
-
-        outdat << pointer1->retXpoint() << " "
-                << pointer1->retYpoint() << " "
-                << pointer1->retZpoint() << endl<<endl;
+                << pointer3->retZpoint() << endl ;
 
         current = current->getNextSurface();
     }
@@ -185,11 +182,13 @@ int main()
     outfile << "clear" << endl ;
     outfile << "reset" << endl ;
     outfile << "set hidden3d" << endl ;
+    outfile << "set pm3d" << endl ;
+    outfile << "set surface" << endl ;
     outfile << "set dgrid3d" << endl;
-    outfile << "set xrange [-10:125]" << endl;
-    outfile << "set yrange [-10:125]" << endl;
-    outfile << "set zrange [-10:125]" << endl;
-    outfile << "splot \"dat.txt\" with lines" << endl;
+    outfile << "set xrange [-10:50]" << endl;
+    outfile << "set yrange [-10:50]" << endl;
+    outfile << "set zrange [-10:500]" << endl;
+    outfile << "splot \"dat.txt\"" << endl;
     outfile << "pause -1";
 
     outfile.close();
@@ -198,7 +197,7 @@ int main()
     system("gnuplot command.txt ");
 
 
-    delete head;
+
     delete pointer1;
     delete pointer2;
     delete pointer3;
@@ -210,86 +209,119 @@ int main()
 
 
 ///
-
 void shatter(surface *curr)
 {
-    surface *current = new surface, *newChain = new surface, *delMe = curr, *placeHolder = new surface, *tempSurf = new surface;
-    pointSet *centroid = new pointSet, *tempSet = new pointSet, *pointX = new pointSet, *pointY = new pointSet, *pointZ = new pointSet;
-    double modVal, tempVal;
-    current = curr;
-    /// Pulling "X" values to find centroid
-    tempSet = current->getXPoints();
-    tempVal = tempSet->retXpoint();
-    modVal = tempVal;
-    tempSet = current->getYPoints();
-    tempVal = tempSet->retXpoint();
-    modVal = modVal +tempVal;
-    tempSet = current->getZPoints();
-    tempVal = tempSet->retXpoint();
-    modVal = modVal + tempVal;
-    modVal = (modVal/3);
+    surface *current = new surface,
+            *newChain = new surface,
+            *newChainHead = new surface,
+            *temp = new surface;
 
-    centroid->setXpoint(modVal);
-
-
-    /// Pulling "Y" values to find centroid
-    tempSet = current->getXPoints();
-    modVal = tempSet->retYpoint();
-    tempSet = current->getYPoints();
-    modVal = modVal+ (tempSet->retYpoint());
-    tempSet = current->getZPoints();
-    modVal = modVal +(tempSet->retYpoint());
-    modVal = (modVal/3);
-
-    centroid->setYpoint(modVal);
-
-    ///Pulling "Z" values to find centroid
-    tempSet = current->getXPoints();
-    modVal = (tempSet->retZpoint());
-    tempSet = current->getYPoints();
-    modVal = modVal +(tempSet->retZpoint());
-    tempSet = current->getZPoints();
-    modVal = modVal +(tempSet->retZpoint());
-    modVal = (modVal/3);
-
-    centroid->setZpoint(modVal);
+    pointSet *tem = new pointSet;
 
 
 
-    /// Creating triangle one
-    placeHolder = newChain;
-    newChain->setXPoints(pointX);
-    newChain->setYPoints(pointY);
+    pointSet *centroid = new pointSet;
+
+
+    *current = *curr;
+
+
+    ///    Getting centroid of surface
+
+    current->centroid(current);
+    centroid = current->getCentPoint();
+
+    tem = current->getXPoints();
+
+
+    tem = current->getYPoints();
+
+    tem = current->getZPoints();
+
+    /// Setting surface one;
+    tem = current->getXPoints();
+    newChain->setXPoints(tem);
+    tem = current->getYPoints();
+    newChain->setYPoints(tem);
     newChain->setZPoints(centroid);
-    cout << "one" << endl;
+    newChainHead = newChain;
 
+
+
+    tem = newChain->getXPoints();
+
+    tem = newChain->getYPoints();
+
+    tem = newChain->getZPoints();
+
+
+    ///     Setting surface two
     newChain->makeNewSurface();
-
     newChain = newChain->getNextSurface();
-
-    /// Creating triangle two
     newChain->setXPoints(centroid);
-    newChain->setYPoints(pointY);
-    newChain->setZPoints(pointZ);
+    newChain->setYPoints(current->getYPoints());
+    newChain->setZPoints(current->getZPoints());
+
+    tem = newChain->getXPoints();
+
+    tem = newChain->getYPoints();
+
+    tem = newChain->getZPoints();
+
+    ///     Setting surface three
     newChain->makeNewSurface();
     newChain = newChain->getNextSurface();
-    cout << "two" << endl;
-
-    /// Creating triangle three
-    newChain->setXPoints(pointX);
+    newChain->setXPoints(current->getXPoints());
     newChain->setYPoints(centroid);
-    newChain->setZPoints(pointZ);
-    cout << "three" << endl;
+    newChain->setZPoints(current->getZPoints());
+    newChain->setNextSurface(current->getNextSurface());
 
-    ///linking triangles to list
-    tempSurf = current->getNextSurface();
-    newChain->setNextSurface(tempSurf);
-    cout << "done linking" << endl;
-    cout << " done deleting" << endl;
+    tem = newChain->getXPoints();
 
-    *curr = *placeHolder;
+    tem = newChain->getYPoints();
+
+    tem = newChain->getZPoints();
+
+
+
+    ///     Doing magic things to replace original surface
+    ///     with the three new ones
+    *curr = *newChainHead;
+
 
 }
 
+///---------------------------------------------------
+
+bool checker(surface *curr, double &prev)
+{
+
+    surface *current = curr;
+    pointSet *tempPoint = new pointSet;
+    double compValX1 = 0,
+        compValX2 = 0,
+        tempx = 0;
 
 
+    double maxVal = 1;
+
+    tempPoint = current->getZPoints();
+    compValX1 = tempPoint->retZpoint();
+    current->centroid(current);
+    tempPoint = current->getCentPoint();
+    compValX2 = tempPoint->retZpoint();
+
+    tempx = abs(compValX2 - compValX1);
+
+
+    if ((tempx > maxVal) && (tempx != prev))
+        {
+            prev = tempx;
+            return true;
+        }
+
+    else
+        {return false;}
+
+
+}
