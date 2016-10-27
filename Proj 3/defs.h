@@ -12,6 +12,7 @@
 #include <windows.h>
 #include <cstdlib>
 #include <stdio.h>
+#include <time.h>
 
 
 
@@ -40,17 +41,17 @@ public:
 ///----------------------------------------------------------------------
 
 ///----------------------------------------------------------------------
-    void setXpoint(int n) {xValue = n;}
+    void setXpoint(double n) {xValue = n;}
 
 ///---------------------------------------------------------------------
 
 ///----------------------------------------------------------------------
-    void setYpoint(int n) {yValue = n;}
+    void setYpoint(double n) {yValue = n;}
 
 ///----------------------------------------------------------------------
 
 ///----------------------------------------------------------------------
-    void setZpoint(int n) {zValue = n;}
+    void setZpoint(double n) {zValue = n;}
 
 ///----------------------------------------------------------------------
     void display()
@@ -87,6 +88,59 @@ class surface
         }
         };
 ///----------------------------------------------------------------------
+
+///----------------------------------------------------------------------
+void centroid(surface *n)
+    {
+        double temp;
+        int rando;
+
+        temp = (xPoint.retXpoint()+yPoint.retXpoint()+zPoint.retXpoint());
+        temp = round(temp/3);
+
+        srand(time(NULL));
+        rando = trunc(temp);
+        rando = rand() % rando - (trunc(rando/2));
+        temp = rando;
+
+        centerpoint.setXpoint(temp);
+
+
+        temp = (xPoint.retYpoint()+yPoint.retYpoint()+zPoint.retYpoint());
+        temp = round(temp/3);
+        srand(time(NULL));
+        rando = trunc(temp);
+        rando = rand() % rando - (trunc(rando/2));
+        temp = rando;
+        centerpoint.setYpoint(temp);
+
+
+        temp = (xPoint.retZpoint()+yPoint.retZpoint()+zPoint.retZpoint());
+        temp = round(temp/3);
+        srand(time(NULL));
+        rando = trunc(temp);
+        rando = rand() % rando - (trunc(rando/2));
+        temp = rando;
+
+        centerpoint.setZpoint(temp);
+
+
+    }
+///----------------------------------------------------------------------
+
+///----------------------------------------------------------------------
+pointSet *getCentPoint()
+
+{   pointSet * temp;
+    temp = new pointSet;
+    temp->setXpoint(centerpoint.retXpoint());
+    temp->setYpoint(centerpoint.retYpoint());
+    temp->setZpoint(centerpoint.retZpoint());
+    return temp;
+
+}
+///----------------------------------------------------------------------
+
 
 ///----------------------------------------------------------------------
     surface(){next = NULL;}
@@ -129,17 +183,14 @@ class surface
 
 ///----------------------------------------------------------------------
     pointSet *getXPoints()
-    {   pointSet * temp;
-        temp = new pointSet;
+    {
+        pointSet *temp = new pointSet;
+
         temp->setXpoint(xPoint.retXpoint());
         temp->setYpoint(xPoint.retYpoint());
         temp->setZpoint(xPoint.retZpoint());
         return temp;
 
-        /*
-
-
-       return temp;*/
 }
 ///----------------------------------------------------------------------
 
@@ -189,7 +240,7 @@ class surface
 
 private:
 
-    pointSet xPoint, yPoint, zPoint, centerPoint;
+    pointSet xPoint, yPoint, zPoint, centerpoint;
     surface *next;
 };
 
