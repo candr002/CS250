@@ -24,7 +24,7 @@
 
 using namespace std;
 
-
+bool checker(surface *curr);
 void shatter(surface *curr);
 
 int main()
@@ -123,31 +123,35 @@ int main()
 
     ///Outputting all points within linked list out a data file for later usage
     current = mountain;
+    bool checkval;
+    checkval = checker(current);
 
-double checkVal = 0,
-        minVal = 300;
 
-pointSet *tempVal1 = NULL, *tempVal2 = NULL;
-while (current != NULL)
-    {
-    tempVal1 = current->getXPoints();
-    tempVal2 = current->getZPoints();
-    checkVal = abs(tempVal1->retZpoint() - tempVal2->retZpoint());
-
-    while (checkVal > minVal)
-    {
-    shatter(current);
-    tempVal1 = current->getXPoints();
-    tempVal2 = current->getZPoints();
-    checkVal = abs(tempVal1->retZpoint() - tempVal2->retZpoint());
-
-     }
+    while (current != NULL)
+        {
+        while (checkval == true)
+            {
+            shatter(current);
+            checkval = checker(current);
+            }
         current = current->getNextSurface();
-    }
+        }
+
+    /*for (int looper = 0; looper < 2; looper++)
+    {
+        for (int loopy = 0; loopy < 2; loopy++)
+            {
+            shatter(current);
+            current = current->getNextSurface();
+            current = current->getNextSurface();
+            current = current->getNextSurface();
+            }
+    }*/
+
+
+
 
     current = mountain;
-
-
     while (current!=NULL)
     {
         pointer1 = current->getXPoints();
@@ -164,10 +168,14 @@ while (current != NULL)
 
         outdat << pointer3->retXpoint() << " "
                 << pointer3->retYpoint() << " "
-                << pointer3->retZpoint() << endl ;
+                << pointer3->retZpoint() << endl << endl ;
 
         current = current->getNextSurface();
     }
+    current = mountain;
+
+
+
 
 
     outdat.close();
@@ -179,9 +187,9 @@ while (current != NULL)
     outfile << "set pm3d" << endl ;
     outfile << "set surface" << endl ;
     outfile << "set dgrid3d" << endl;
-    outfile << "set xrange [-10:500]" << endl;
-    outfile << "set yrange [-10:500]" << endl;
-    outfile << "set zrange [-10:500]" << endl;
+    outfile << "set xrange [0:200]" << endl;
+    outfile << "set yrange [0:200]" << endl;
+    outfile << "set zrange [0:200]" << endl;
     outfile << "splot \"dat.txt\"" << endl;
     outfile << "pause -1";
 
@@ -191,13 +199,6 @@ while (current != NULL)
     system("gnuplot command.txt ");
 
 
-
-    delete pointer1;
-    delete pointer2;
-    delete pointer3;
-    delete pointer4;
-    delete pointer5;
-    delete center;
     return 0;
 }
 
@@ -205,6 +206,9 @@ while (current != NULL)
 ///
 void shatter(surface *curr)
 {
+
+
+
     surface *current = NULL,
             *newChain = new surface,
             *newChainHead = new surface,
@@ -233,7 +237,7 @@ void shatter(surface *curr)
     newChain->setXPoints(tempPointx);
     newChain->setYPoints(tempPointy);
     newChain->setZPoints(centroid);
-    *newChainHead = *newChain;
+    newChainHead = newChain;
 
 
 
@@ -263,8 +267,56 @@ void shatter(surface *curr)
 
 
 
-}
+
+    }
 
 ///---------------------------------------------------
+bool checker(surface *curr)
+{
 
+    pointSet *temp = NULL;
+
+
+    double tempXval1 = 0,
+            tempXval2 = 0,
+            holdVal = 0,
+            maxVal = 2;
+    bool tempXbool,
+        tempYbool;
+
+    temp = curr->getXPoints();
+    tempXval1 = temp->retXpoint();
+    temp = curr->getYPoints();
+    tempXval2 = temp->retXpoint();
+
+    holdVal = (tempXval1 - tempXval2);
+    holdVal = abs(holdVal);
+
+    if (holdVal > maxVal)
+        {tempXbool = true;}
+
+    else
+        {tempXbool = false;}
+
+    temp = curr->getXPoints();
+    tempXval1 = temp->retYpoint();
+    temp = curr->getZPoints();
+    tempXval2 = temp->retYpoint();
+
+    holdVal = (tempXval1 - tempXval2);
+    holdVal = abs(holdVal);
+
+    if (holdVal > (maxVal))
+        {tempYbool = true;}
+
+    else
+        {tempYbool = false;}
+
+    if ((tempXbool == false) || (tempYbool == false))
+        {return false;}
+
+    else
+        {return true;}
+
+}
 

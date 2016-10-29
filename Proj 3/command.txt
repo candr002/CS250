@@ -4,8 +4,8 @@ set hidden3d
 set pm3d
 set surface
 set dgrid3d
-set xrange [-10:500]
-set yrange [-10:500]
-set zrange [-10:500]
+set xrange [0:200]
+set yrange [0:200]
+set zrange [0:200]
 splot "dat.txt"
 pause -1
