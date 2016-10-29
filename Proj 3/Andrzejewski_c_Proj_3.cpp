@@ -24,7 +24,6 @@
 
 using namespace std;
 
-bool checker(surface *curr, double &prev);
 
 void shatter(surface *curr);
 
@@ -37,9 +36,9 @@ int main()
     outdat.open("dat.txt");
     double xVal = 0, yVal = 0, zVal = 0, cVal = 0;
     double previous = 0;
-    surface mountain;
-    surface *current;
-    current = &mountain;
+    surface *mountain = new surface;
+    surface *current = NULL;
+    current = mountain;
     bool checkSum = true;
 
     pointSet centerpoint;
@@ -62,16 +61,16 @@ int main()
     point1.setZpoint(0);
 
 
-    point2.setXpoint(50);
+    point2.setXpoint(100);
     point2.setYpoint(0);
     point2.setZpoint(0);
 
-    point3.setXpoint(50);
-    point3.setYpoint(50);
+    point3.setXpoint(100);
+    point3.setYpoint(100);
     point3.setZpoint(0);
 
     point4.setXpoint(0);
-    point4.setYpoint(50);
+    point4.setYpoint(100);
     point4.setZpoint(0);
 
     ///Output for user's sake
@@ -95,7 +94,6 @@ int main()
 
 
     ///Loading hard-coded and user-defined points into linked list
-    current= &mountain;
 
     current->setXPoints(pointer1);
     current->setYPoints(pointer2);
@@ -120,39 +118,34 @@ int main()
     current->setYPoints(pointer1);
     current->setZPoints(pointer5);
 
+    surface *tempSurf= new surface;
 
 
     ///Outputting all points within linked list out a data file for later usage
-    current = &mountain;
-    bool genericFlag = true;
-    for (int looper = 0; looper < 3; looper++)
+    current = mountain;
+
+double checkVal = 0,
+        minVal = 300;
+
+pointSet *tempVal1 = NULL, *tempVal2 = NULL;
+while (current != NULL)
     {
+    tempVal1 = current->getXPoints();
+    tempVal2 = current->getZPoints();
+    checkVal = abs(tempVal1->retZpoint() - tempVal2->retZpoint());
 
-        checkSum = checker(current, previous);
+    while (checkVal > minVal)
+    {
+    shatter(current);
+    tempVal1 = current->getXPoints();
+    tempVal2 = current->getZPoints();
+    checkVal = abs(tempVal1->retZpoint() - tempVal2->retZpoint());
 
-        while (checkSum == true)
-            {
-            shatter(current);
-
-            if (current->getNextSurface() != NULL)
-                {
-                current = current->getNextSurface();
-                checkSum = checker(current, previous);
-                }
-            }
-
-        if (current->getNextSurface() != NULL)
-        {
-            current = current->getNextSurface();
-            checkSum = true;
-        }
-
-        else
-            genericFlag = false;
+     }
+        current = current->getNextSurface();
     }
 
-
-    current = &mountain;
+    current = mountain;
 
 
     while (current!=NULL)
@@ -186,8 +179,8 @@ int main()
     outfile << "set pm3d" << endl ;
     outfile << "set surface" << endl ;
     outfile << "set dgrid3d" << endl;
-    outfile << "set xrange [-10:50]" << endl;
-    outfile << "set yrange [-10:50]" << endl;
+    outfile << "set xrange [-10:500]" << endl;
+    outfile << "set yrange [-10:500]" << endl;
     outfile << "set zrange [-10:500]" << endl;
     outfile << "splot \"dat.txt\"" << endl;
     outfile << "pause -1";
@@ -212,19 +205,18 @@ int main()
 ///
 void shatter(surface *curr)
 {
-    surface *current = new surface,
+    surface *current = NULL,
             *newChain = new surface,
             *newChainHead = new surface,
             *temp = new surface;
 
-    pointSet *tem = new pointSet;
-
-
-
+    pointSet *tempPointx = new pointSet;
+    pointSet *tempPointy = new pointSet;
+    pointSet *tempPointz = new pointSet;
     pointSet *centroid = new pointSet;
 
 
-    *current = *curr;
+    current = curr;
 
 
     ///    Getting centroid of surface
@@ -232,97 +224,47 @@ void shatter(surface *curr)
     current->centroid(current);
     centroid = current->getCentPoint();
 
-    tem = current->getXPoints();
-
-
-    tem = current->getYPoints();
-
-    tem = current->getZPoints();
+    tempPointx  =  current->getXPoints();
+    tempPointy = current->getYPoints();
+    tempPointz = current->getZPoints();
 
     /// Setting surface one;
-    tem = current->getXPoints();
-    newChain->setXPoints(tem);
-    tem = current->getYPoints();
-    newChain->setYPoints(tem);
+
+    newChain->setXPoints(tempPointx);
+    newChain->setYPoints(tempPointy);
     newChain->setZPoints(centroid);
-    newChainHead = newChain;
+    *newChainHead = *newChain;
 
-
-
-    tem = newChain->getXPoints();
-
-    tem = newChain->getYPoints();
-
-    tem = newChain->getZPoints();
 
 
     ///     Setting surface two
     newChain->makeNewSurface();
     newChain = newChain->getNextSurface();
     newChain->setXPoints(centroid);
-    newChain->setYPoints(current->getYPoints());
-    newChain->setZPoints(current->getZPoints());
+    newChain->setYPoints(tempPointy);
+    newChain->setZPoints(tempPointz);
 
-    tem = newChain->getXPoints();
-
-    tem = newChain->getYPoints();
-
-    tem = newChain->getZPoints();
 
     ///     Setting surface three
     newChain->makeNewSurface();
     newChain = newChain->getNextSurface();
-    newChain->setXPoints(current->getXPoints());
+    newChain->setXPoints(tempPointx);
     newChain->setYPoints(centroid);
-    newChain->setZPoints(current->getZPoints());
+    newChain->setZPoints(tempPointz);
     newChain->setNextSurface(current->getNextSurface());
 
-    tem = newChain->getXPoints();
-
-    tem = newChain->getYPoints();
-
-    tem = newChain->getZPoints();
 
 
 
     ///     Doing magic things to replace original surface
     ///     with the three new ones
+
     *curr = *newChainHead;
+
 
 
 }
 
 ///---------------------------------------------------
 
-bool checker(surface *curr, double &prev)
-{
 
-    surface *current = curr;
-    pointSet *tempPoint = new pointSet;
-    double compValX1 = 0,
-        compValX2 = 0,
-        tempx = 0;
-
-
-    double maxVal = 1;
-
-    tempPoint = current->getZPoints();
-    compValX1 = tempPoint->retZpoint();
-    current->centroid(current);
-    tempPoint = current->getCentPoint();
-    compValX2 = tempPoint->retZpoint();
-
-    tempx = abs(compValX2 - compValX1);
-
-
-    if ((tempx > maxVal) && (tempx != prev))
-        {
-            prev = tempx;
-            return true;
-        }
-
-    else
-        {return false;}
-
-
-}
