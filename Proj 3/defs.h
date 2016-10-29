@@ -98,9 +98,9 @@ void centroid(surface *n)
         temp = (xPoint.retXpoint()+yPoint.retXpoint()+zPoint.retXpoint());
         temp = round(temp/3);
 
-       srand(time(NULL));
+       srand(time(0));
         rando = trunc(temp);
-        rando = rand() % rando - (trunc(rando/2));
+        rando = rand() % (rando *2) - (trunc(rando/2));
         temp = rando;
 
         centerpoint.setXpoint(temp);
@@ -108,18 +108,18 @@ void centroid(surface *n)
 
         temp = (xPoint.retYpoint()+yPoint.retYpoint()+zPoint.retYpoint());
         temp = round(temp/3);
-      srand(time(NULL));
+      //srand(time(0));
         rando = trunc(temp);
-        rando = rand() % rando - (trunc(rando/2));
+        rando = rand() % (rando *2) - (trunc(rando/2));
         temp = rando;
         centerpoint.setYpoint(temp);
 
 
         temp = (xPoint.retZpoint()+yPoint.retZpoint()+zPoint.retZpoint());
         temp = round(temp/3);
-        srand(time(NULL));
+        //srand(time(0));
         rando = trunc(temp);
-        rando = rand() % rando  - 2;
+        rando = rand() % (rando *2) - (trunc(rando/2));
         temp = rando;
 
         centerpoint.setZpoint(temp);

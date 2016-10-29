@@ -79,7 +79,7 @@ int main()
     cout << "||Welcome to the AMAZING MOUNTAIN BUILDER GAME! Let's build.||\n";
     cout << "**************************************************************\n";
     cout << "**************************************************************\n\n\n";
-    cout << "Please enter the X Y and Z values for the peak.\n";
+    cout << "Please enter the X Y (1-100)and Z values (1-200) for the peak.\n";
 
     ///Input final values (z,y,z points for peak) four mountain
     cin >> xVal;
@@ -280,7 +280,7 @@ bool checker(surface *curr)
     double tempXval1 = 0,
             tempXval2 = 0,
             holdVal = 0,
-            maxVal = 2;
+            maxVal = 1;
     bool tempXbool,
         tempYbool;
 
