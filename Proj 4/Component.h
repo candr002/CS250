@@ -5,6 +5,8 @@
 /// This program will simulate a vehicle repair depot.
 ///***********************************************************
 
+#include <stdio.h>
+#include <cstdlib>
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -12,7 +14,8 @@
 #include <iomanip>
 #include <random>
 #include <ctime>
-#include <stdio.h>
+
+using namespace std;
 
 
 class component
@@ -21,6 +24,10 @@ public:
 
 ///==========================================================
     component(){next = NULL;}
+///==========================================================
+
+///==========================================================
+
 ///==========================================================
 
 ///==========================================================
@@ -44,13 +51,13 @@ public:
 
 ///==========================================================
     void setPartStatus(bool s)
-        {component = s;}
+        {componentStatus = s;}
 ///==========================================================
 
 
 ///==========================================================
     bool getPartStatus()
-        {return component;}
+        {return componentStatus;}
 ///==========================================================
 
 
@@ -100,16 +107,9 @@ private:
 
     int componentNumber;
 
-    bool component;
+    bool componentStatus;
 
-    int compRepTime[9]; ///Hard codes repair time value for each component type
-        const compRepTime[0] = 1;
-        const compRepTime[1] = 2;
-        const compRepTime[2] = 3;
-        const compRepTime[3] = 4;
-        const compRepTime[4] = 5;
-        const compRepTime[5] = 6;
-        const compRepTime[6] = 7;
-        const compRepTime[7] = 8;
-        const compRepTime[8] = 9;
+    const int compRepTime[9] = {1, 2, 3, 4, 5, 6, 7, 8, 9}; ///Hard codes repair time value for each component type
+
+
 };

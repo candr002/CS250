@@ -5,15 +5,9 @@
 /// This program will simulate a vehicle repair depot.
 ///***********************************************************
 
-#include <iostream>
-#include <string>
-#include <fstream>
-#include <iomanip>
-#include <iomanip>
-#include <random>
-#include <ctime>
+
 #include "component.h"
-#include <stdio.h>
+
 
 
 
@@ -93,7 +87,7 @@ public:
         for (int loop = 0; loop <5; loop++)
         {
             if (vehicleParts[loop].getPartStatus() != 1)
-                {temp++}
+                {temp++;}
         }
         if (temp > 2)
             {hardBroke = 1;}
@@ -110,8 +104,8 @@ public:
 
             for (int loop = 0; loop < 5; loop++)
             {
-                if (vehicleParts[loop].getPartStatus(loop+(vehicleType-1)) == 0)
-                    {temp++}
+                if (vehicleParts[loop].getPartStatus() == 0)
+                    {temp++;}
             }
 
             totalBrokenParts = temp;
@@ -132,8 +126,8 @@ public:
 
             for (int loop = 0; loop < 5; loop++)
                 {
-                if (vehicleParts[loop].getPartStatus(loop+(vehicleType-1)) == 0)
-                    {temp = vehicleParts[loop].getRepairTime());}
+                if (vehicleParts[loop].getPartStatus() == 0)
+                    {temp = vehicleParts[loop].getRepairTime();}
                 }
             totalRepTime = temp;
         }
@@ -160,7 +154,7 @@ public:
 
 ///==========================================================
     int getRepairTime()
-        {return compRepTime[componentNumber];}
+        {return totalRepTime;}
 ///==========================================================
 
 ///===========================================================
@@ -168,11 +162,12 @@ public:
     {
         default_random_engine partsFate(time(NULL));
         uniform_int_distribution<int> range(0,1);
-
+        int temp;
         for (int loop = 0; loop < 5; loop++)
         {
+            temp = range(partsFate);
             vehicleParts[loop].setComponentNumber(loop + (vehicleType -1));
-            vehicleParts[loop].setPartStatus(partsFate(range));
+            vehicleParts[loop].setPartStatus(temp);
         }
     }
 ///===========================================================
