@@ -1,9 +1,18 @@
 ///***********************************************************
 /// Author: Chris Andrzejewski
-/// Date: 1 Oct 16
+/// Date: TBD
 /// Program: Class Assignment 4 (Vehicle Depot)
 /// This program will simulate a vehicle repair depot.
 ///***********************************************************
+
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <iomanip>
+#include <iomanip>
+#include <random>
+#include <ctime>
+#include <stdio.h>
 
 class component
 {
@@ -11,14 +20,14 @@ public:
 
 
 ///==========================================================
-    void setPartStatus(int n, bool s)
-        {component[n] = s;}
+    void setPartStatus(bool s)
+        {component = s;}
 ///==========================================================
 
 
 ///==========================================================
-    bool getPartStatus(int n)
-        {return component[n];}
+    bool getPartStatus()
+        {return component;}
 ///==========================================================
 
 
@@ -41,8 +50,24 @@ public:
 
 
 ///==========================================================
-    int getRepairTime(int n)
-        {return compRepTime[n];}
+    int getRepairTime()
+        {return compRepTime[componentNumber];}
+///==========================================================
+
+
+///==========================================================
+    void setComponentNumber(int n)
+        {
+        componentNumber = n;
+        }
+///==========================================================
+
+
+///==========================================================
+    int getComponentNumber()
+        {
+        return componentNumber;
+        }
 ///==========================================================
 
 
@@ -50,7 +75,9 @@ private:
 
     component *next;
 
-    bool component[9];
+    int componentNumber;
+
+    bool component;
 
     int compRepTime[9]; ///Hard codes repair time value for each component type
         const compRepTime[0] = 1;
@@ -94,6 +121,24 @@ public:
 
 
 ///===========================================================
+    void hardBrokeChecker()
+    {
+        int temp = 0;
+
+        for (int loop = 0; loop <5; loop++)
+        {
+            if (vehicleParts[loop].getPartStatus() != 1)
+                {temp++}
+        }
+        if (temp > 2)
+            {hardBroke = 1;}
+        else
+            {hardBroke = 0;}
+    }
+///===========================================================
+
+
+///===========================================================
     void setTotalBrokenParts()
         {
             int temp = 0;
@@ -123,10 +168,25 @@ public:
             for (int loop = 0; loop < 5; loop++)
                 {
                 if (vehicleParts[loop].getPartStatus(loop+(vehicleType-1)) == 0)
-                    {temp = vehicleParts[loop].getRepairTime(loop + (vehicle-1));}
+                    {temp = vehicleParts[loop].getRepairTime());}
                 }
             totalRepTime = temp;
         }
+///===========================================================
+
+
+///===========================================================
+    void buildComponentSet()
+    {
+        default_random_engine partsFate;
+        uniform_int_distribution<int> range(0,1);
+
+        for (int loop = 0; loop < 5; loop++)
+        {
+            vehicleParts[loop].setComponentNumber(loop + (vehicleType -1));
+            vehicleParts[loop].setPartStatus(partsFate(range));
+        }
+    }
 ///===========================================================
 private:
 
