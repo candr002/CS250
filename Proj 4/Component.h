@@ -5,6 +5,16 @@
 /// This program will simulate a vehicle repair depot.
 ///***********************************************************
 
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <iomanip>
+#include <iomanip>
+#include <random>
+#include <ctime>
+#include <stdio.h>
+
+
 class component
 {
 public:

@@ -12,6 +12,7 @@
 #include <iomanip>
 #include <random>
 #include <ctime>
+#include "component.h"
 #include <stdio.h>
 
 
