@@ -1,8 +1,0 @@
-clear
-reset
-
-set title "polynomial equation"
-a=0.25
-b=0.02
-c=0.05
-d=

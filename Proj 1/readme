@@ -1,4 +1,0 @@
-This program takes a user defined file (list of real and imaginary number values)
-to produce a liked list that can, in turn, sum or multiply all items in the list
-
-Class definitions and functions are in the header file.
