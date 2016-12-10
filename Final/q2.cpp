@@ -22,7 +22,7 @@ int main()
         {
             case 1:
                 cout << "You selected menu item " << menuSel <<".\n\n";
-                while (current != NULL)
+                while (current->retDist() != NULL)
                     current = current->retNext();
 
                 cout << "Please input the time in HOURS SINCE LAST DISCOVERY (eg. 5)\n";
@@ -35,14 +35,32 @@ int main()
 
                 cout << "\nPlease input the AZIMUTH ANGLE of the NEO (eg. 222)\n";
                 cin >> temp;
+                while ((temp < 0) or (temp > 360))
+                {
+                    cout << "Invalid DEGREE! Please enter another value (0 to 360)\n";
+                    cin >> temp;
+
+                }
                 current->setAzimuth(temp);
 
                 cout << "\nPlease input the ELEVATION ANGLE of the NEO (eg. 155)\n";
                 cin >> temp;
+                while ((temp < 0) or (temp > 360))
+                {
+                    cout << "Invalid DEGREE! Please enter another value (0 to 360)\n";
+                    cin >> temp;
+
+                }
                 current->setElevation(temp);
 
                 cout << "\nPlease input the VECTOR X VALUE of the NEO (eg. 7)\n";
                 cin >> temp;
+                while ((temp < 0) or (temp > 360))
+                {
+                    cout << "Invalid DEGREE! Please enter another value (0 to 360)\n";
+                    cin >> temp;
+
+                }
                 current->setXvector(temp);
 
                 cout << "\nPlease input the VECTOR Y VALUE of the NEO (eg. 7)\n";
@@ -58,7 +76,25 @@ int main()
                 break;
 
             case 2:
-                cout << "You selected menu item " << menuSel <<". Displaying all known NEO's\n\n";
+                cout << "\nYou selected menu item " << menuSel <<". Displaying all known NEO's\n\n";
+                current = head;
+                if (current->retDist() == NULL)
+                    {
+                    cout << "No NEOs being tracked currently, please log NEOs first.\n\n";
+                    }
+                else
+                {
+                    cout << "ID\t" << "TIME\t" << "LOCATION\t" << "Xi\t" << "Yj\t" << "Zk\n";
+                    cout <<"-----------------------------------------------------\n";
+                    while (current->retDist() != NULL)
+                    {
+                        displayNEO(current);
+                    cout <<"-----------------------------------------------------\n";
+
+                        current = current->retNext();
+                    }
+                    cout << "\n\n";
+                }
                 break;
 
             case 3:

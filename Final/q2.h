@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include <cmath>
 #include <iomanip>
 #include <cstdlib>
 #include <stdio.h>
@@ -98,7 +97,6 @@ void setYvector(double n)
 double retYvector()
     {return yjVal;}
 ///====================================================\
-
 ///====================================================
 void setZvector(double n)
     {zkVal = n;}
